@@ -696,8 +696,27 @@ dataCopy.forEach(location => {
         }
         const ctx1 = document.getElementById('lineAreaChart');
         lineAreaChart = new Chart(ctx1, config1);
+
+        // Handle window resize to ensure charts adjust correctly when the window size changes
+        // Chart.js automatically handles shrinking, but to handle expansion properly, 
+        // we need to manually trigger a resize on each chart instance.
+        // Without this, charts may not redraw correctly when window size increases after load.
+        // Remove existing listener to avoid duplicates
+        window.removeEventListener('resize', handleChartResize);
+        window.addEventListener('resize', handleChartResize);
     } 
 }
+
+// Chart resize handler function
+function handleChartResize() {
+    if (timelineChart instanceof Chart) {
+        timelineChart.resize();
+    }
+    if (lineAreaChart instanceof Chart) {
+        lineAreaChart.resize();
+    }
+}
+
 function refreshTimeline() {
     let hash = getHash();
     let scope = "country";
@@ -969,32 +988,4 @@ function toggleDivs() {
 
     // Show the selected div
     document.getElementById(selectedValue).style.display = 'block';
-}
-//Population data for different scope
-
-// Handle window resize to ensure charts adjust correctly when the window size changes
-// Chart.js automatically handles shrinking, but to handle expansion properly, 
-// we need to manually trigger a resize on each chart instance.
-// Without this, charts may not redraw correctly when window size increases after load.
-window.addEventListener('resize', function() {
-    if (timelineChart instanceof Chart) {
-        timelineChart.resize();
-    }
-    if (lineAreaChart instanceof Chart) {
-        lineAreaChart.resize();
-    }
-});
-function handleCountryListClick() {
-    // Store current hash before opening country selection
-    const currentHash = window.location.hash;
-    
-    // Set up an interval to check when we return from country selection
-    const checkReturnInterval = setInterval(() => {
-        if (window.location.hash !== currentHash && 
-            !window.location.hash.includes('geoview=countries')) {
-            // We've returned from country selection
-            clearInterval(checkReturnInterval);
-            refreshTimeline();
-        }
-    }, 10);
 }

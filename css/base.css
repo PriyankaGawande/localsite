@@ -2,6 +2,7 @@
 Originates at https://modelearth.github.io/localsite/css/base.css 
 Used in localsite, modelearth, io, neighborhood, trees
 */
+
 @font-face {
   font-family:'Amaze';font-weight:300;
   src:url("/localsite/css/fonts/ember.woff2") format("woff2"), url("/localsite/css/fonts/ember.woff") format("woff")
@@ -77,7 +78,8 @@ body {
   }
 }
 .bodyRightMargin {
-  margin-right: 500px;
+  /* adds extra spec left of header following change to add nav.js */
+  /* margin-right: 500px; */
 }
 @media (max-width: 400px) {
   .bodyLeftMargin {
@@ -210,15 +212,27 @@ body {
   }
 }
 
-.flexbodyX {
-  display: flex; /* for footer */
-  flex-direction: column; /* for footer */
+/* Also in nav.css - allows #main-nav to extend to footer */
+.flexbody {
+    display: flex;
+    height: 100vh;
+    flex-direction: row;
 }
+
 main, .flexmain {
     flex-grow: 1; /* for footer */
 }
 header, main, .flexfooter {
-    flex-shrink: 0; /* prevent shrinking if content is larger than the screen. */
+    /* Resulted in massive images */
+    /* flex-shrink: 0; */ /* prevent shrinking if content is larger than the screen. */
+}
+#main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+#main-content {
+  width: 100%;
 }
 
 table {
@@ -229,7 +243,14 @@ td {
   vertical-align: top;
 }
 textarea {
-    border-color: #777;
+  border-color: #777;
+}
+.dark textarea {
+  color: #eee;
+  background-color: #222;
+  border-color: #222;
+  border-left: 4px solid green;
+  border-radius: 6px;
 }
 .textInput {
   font-size: 15px;
@@ -241,7 +262,7 @@ textarea {
   border-radius: 6px;
 }
 /* Lighter: #4091dd */
-p {
+.content p {
   margin-top: 0px;
   margin-bottom: 16px;
   /*
@@ -364,8 +385,8 @@ h6 {
 .dark .sector-list .indicator-group {
   color: #bbb;
 }
-.dark .tabulator .tabulator-header {
-  background-color: transparent;
+.dark .tabulator .tabulator-header, .dark .tabulator .tabulator-footer {
+  background-color: #333;
   border-bottom: 1px solid transparent;
 }
 .dark .tabulator .tabulator-tableholder .tabulator-table {
@@ -483,7 +504,7 @@ summary::-webkit-details-marker {
   margin-top: 100px;
   padding-top: 18px;
 }
-@media (min-width: 1800px) {
+@media (min-width: 1600px) {
 	.content {
 	  max-width: 1500px;
 	  font-size: 18px;
@@ -531,7 +552,7 @@ summary::-webkit-details-marker {
   color: #fff;
 }
 .dark .greyDiv { /* Left side nav */
-  background-color: #444;
+  background-color: #444 !important;
   border: 0px;
 }
 .dark .greyDiv a:link, .greyDiv a:visited, .dark .content .greyDiv a:link, .dark .content .greyDiv a:visited {
@@ -817,7 +838,7 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
     margin-bottom:8px;
 }
 .btn:link, .btn:visited, .contentpadding .btn:link, .contentpadding .btn:visited {
-  color: #fff !important; 
+  /* color: #fff !important; */
   text-decoration: none;
 }
 #hero-rect .btn:link, #hero-rect .btn:visited {
@@ -956,10 +977,6 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
 .topLinks b {
   font-weight: 800;
 }
-.main-content {
-  /* margin-top: 40px; */
-  /* overflow:hidden; */  /* prevents footer from residing beside columns, but caused menu/accordion to be cut off. */
-}
 #rightColumn img {
   /* messed up /account page */
   /*
@@ -970,7 +987,7 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
   cursor:pointer;
   padding:5px 9px 12px 12px;
   font-size:18px;
-  color:#ddd;
+  color:#eee;
   /* If code appear instead of x, check if some other font is being applied. Try activating this line to fix (copied from an x that worked).
   font-family: 'Nunito Sans', Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   */
@@ -1256,11 +1273,7 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
   font-size: 22px;
 }
 .headerbar {
-  background-color: rgb(230 230 230/50%); /* Don't use. Doesn't overlap left side nav */
   background-color: rgb(239 239 239);
-  right: 0px;
-  left: 0px;
-  top: 0px;
   pointer-events: auto;
 }
 .filterFieldsHolderFixed {
@@ -1294,17 +1307,17 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
 .headerbar a:link:hover, .headerbar a:visited:hover {
     color: #444;
 }
-/* Seems that brave darkmode ignores the use of prefers-color-scheme: dark */
-@media (not (prefers-color-scheme: dark)) {
-  .headerbar {
-    background: #fff;
-    border-bottom: 1px solid rgb(238,238,238/95%); /* #eee */
-    border-bottom: 1px solid rgb(238,238,238);
-  }
+.headerbar {
+  border-bottom: 1px solid rgb(238,238,238/95%); /* #eee */
+  border-bottom: 1px solid rgb(238,238,238);
+  background-color: #eee;
 }
 .dark .headerbar {
-  background: #333;
+  background: #222;
   border-bottom: 1px solid #333;
+}
+.headerbarheight {
+  min-height:80px;
 }
 .headerbarhide {
   display: none !important;
@@ -1317,6 +1330,28 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
   }
 }
 */
+#showSideFromHeader {
+}
+#showSideFromHeader i {
+  font-size:24px; min-width: 30px; 
+  opacity:1; color:#333; padding-left:2px; 
+  padding-right:2px; border:1px solid #555; border-radius:8px;
+}
+#showSideFromHeader i {
+  color: #555;
+}
+#showSideFromHeader i:hover {
+  color: #000 !important;
+}
+#showSideFromHeader:hover i {
+  color: #000 !important;
+}
+.dark #showSideFromHeader i {
+  color: #ddd;
+}
+.dark #showSideFromHeader:hover i {
+  color: #fff !important;
+}
 @media (max-width: 380px) {
   .showSearch {
     display: none;
@@ -1331,17 +1366,22 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
 #headerIcons:hover {
   background-color: #ddd;
 }
-.headerbarheight {
-  min-height:80px;
+:root {
+  --header-offset-height: 79px; /* Default header offset height */
 }
+
 .headeroffset { /* Does not include bar */
   height:79px;
 }
-#local-header {
+#local-headerXXX {
   /* min-height:82.5px; */ /* Caused space under current header */
   min-height:79px;
 }
 @media (max-width: 600px) {
+  :root {
+    --header-offset-height: 64px; /* Mobile header offset height */
+  }
+  
   #headerIcons {
     margin-top:4px;
   }
@@ -1350,9 +1390,6 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
   }
   .headeroffset {
     height:64px;
-  }
-  #local-header {
-    min-height:64px; 
   }
 }
 
@@ -1366,10 +1403,8 @@ content .js, pre code, .codetext { /* Prevents .js from impacting js class withi
 .upperIcons {
   margin-right: 18px;
 }
-@media (min-width: 300px) {
-  #headerLogoholder {
-    min-widthX: 200px;
-  }
+#headerLogoholder {
+  margin-left: 35px;
 }
 @media (max-width: 600px) {
   .upperIcons {
@@ -1758,7 +1793,6 @@ input:checked + .slider:before {
   font-size: 1.1em;
 }
 .large-list .num {
-  position: absolute;
   font-size: 17px;
   background-color: #999;
   color: #fff;
@@ -1773,10 +1807,15 @@ input:checked + .slider:before {
   border-radius: 13px;
   display: block;
 }
+h2 .num {
+  position: absolute;
+}
 .large-list .txt {
   margin-left: 33px;
 }
-
+.dark .large-list .num {
+  background-color: #000;
+}
 /* Hide vertical lines in Tabulator grid */
 .tabulator .tabulator-row .tabulator-cell {
     border-right: none !important;

@@ -81,13 +81,6 @@ document.addEventListener('hashChangeEvent', function (elem) {
   console.log("map.js detects URL hashChangeEvent");
   hashChangedMap();
 }, false);
-document.addEventListener('hiddenhashChangeEvent', function (elem) {
-  console.log("Doing nothing: map.js detects hiddenhashChangeEvent, calls hashChangedMap()");
-  // Instead, we'll create a hash change event without changing the hash.
-  
-  // But needed for io center column red bars (not)
-  //hashChangedMap();
-}, false);
 
 // MAP 1
 // var map1 = {};
@@ -2091,7 +2084,7 @@ function showList(dp,map) {
     if (!$("#listcolumn").is(":visible")) { // #listcolumn may already be visible if icon clicked while page is loading.
         $("#showListInBar").show();
     }
-    //$("#showSideInBar").show(); // Added 2024 May 28
+    //$("#showSideFromBar").show(); // Added 2024 May 28
     $(".sidelistHolder").show();
 
     $('.detail').mouseenter(function(event){
@@ -2231,20 +2224,20 @@ function showList(dp,map) {
 
 $(document).on("click", ".showList", function(event) {
   $("#listcolumn").show();
-  if ($("#navcolumn").is(":hidden")) {
+  if ($("#main-nav").is(":hidden")) {
     // Display showNavColumn in bar
     $("#showNavColumn").hide();
-    $("#showSideInBar").show();
+    $("#showSideFromBar").show();
   }
   showListBodyMargin();
   $(".showList").hide();
   event.stopPropagation();
-  event.preventDefault(); // Prevents #navcolumn from being hidden.
+  event.preventDefault(); // Prevents #main-nav from being hidden.
 });
 function showListBodyMargin() {
-  if ($("#fullcolumn > .datascape").is(":visible")) { // When NOT embedded
+  if ($("#main-container > .datascape").is(":visible")) { // When NOT embedded
     $('body').addClass('bodyLeftMarginList');
-    if ($("#navcolumn").is(":visible") && $("#listcolumn").is(":visible")) {
+    if ($("#main-nav").is(":visible") && $("#listcolumn").is(":visible")) {
       $('#listcolumn').removeClass('listcolumnOnly');
       $('body').addClass('bodyLeftMarginFull'); // Creates margin on left for both fixed sidetabs.
     } else if ($("#listcolumn").is(":visible")) {
@@ -2351,7 +2344,7 @@ function renderCatList(catList,cat) {
     if (maxCatTitleChars <= 32) {
       $("#mainCatList").addClass("catListAddMargin");
     }
-    let fullcolumnWidth = $('#fullcolumn').width();
+    let fullcolumnWidth = $('#main-container').width();
     if (fullcolumnWidth > 500) {
       showNavColumn();
     }
